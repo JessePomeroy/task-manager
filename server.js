@@ -34,20 +34,36 @@ function checkNote(note) {
 }
 
 app.get('/api/notes', (req, res) => {
-    let results = fs.readFileSync(`./db/db.json`);
-    results = JSON.parse(results);
-    res.json(results);
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            res.json(JSON.parse(data));
+        }
+    });
 });
 
-app.post(`/api/notes`, (req, res) => {
-    req.body.id = short.uuid();
-    if (!checkNote(req.body)) {
-        res.status(400).send(`please provide a title and task`);
-    } else {
-        const note = newNote(req.body);
-        res.json(note);
-    }
+app.post('/api/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const notes = JSON.parse(data);
+            const newNote = req.body;
+            newNote.id = Date.now().toString();
+            ; notes.push(newNote);
+            fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (writeErr) => {
+                if (writeErr) {
+                    console.error(writeErr);
+                } else {
+                    res.status(200).json(newNote);
+                }
+            });
+        }
+    });
 });
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
