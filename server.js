@@ -21,10 +21,6 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`now listening on ${PORT}`);
-});
-
 app.get('/api/notes', (req, res) => {
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
@@ -56,13 +52,13 @@ app.post('/api/notes', (req, res) => {
 });
 
 app.delete('/api/notes/:id', (req, res) => {
-    fs.readFile('./db.json', 'utf8', (err, data) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
         } else {
             let notes = JSON.parse(data);
             notes = notes.filter((note) => note.id !== req.params.id);
-            fs.writeFile('./db.json', JSON.stringify(notes, null, 2), (writeErr) => {
+            fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (writeErr) => {
                 if (writeErr) {
                     console.error(writeErr);
                 } else {
@@ -73,5 +69,8 @@ app.delete('/api/notes/:id', (req, res) => {
     });
 });
 
+app.listen(PORT, () => {
+    console.log(`now listening on ${PORT}`);
+});
 
 
