@@ -18,7 +18,7 @@ save and edit notes with the ability to add and delete said notes.
 ## Usage
 javascript node.js backend for the purposes of the project.
 ## Credits
-[![`scrot`](https://github.com/JessePomeroy/task-manager/blob/main/scrot.png)
+![`scrot`](https://github.com/JessePomeroy/task-manager/blob/main/scrot.png)
 Jesse Pomeroy
 ## Contact
 If you have any questions or comments or would like to contribute to
